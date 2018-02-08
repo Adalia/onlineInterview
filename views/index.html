@@ -1,0 +1,21 @@
+<% include header.html %>
+<% if (!user) { %>
+<div class="hero-unit">
+<h1>欢迎来到 WebRTC求职网</h1>
+<p>开启全新的求职之旅</p>
+<p>
+    <a class="btn btn-primary btn-large" href="/login">登录</a>
+    <a class="btn btn-large" href="/register">立即注册</a>
+</p>
+</div>
+<% } else if(user.UserStatus == "0" ){ %>
+<div id="status" >
+		<p style="font-size:medium"><a href="/SendMail">激活账号</a></p>
+		<p  style="font-size:smaller">我们将会向您的注册邮箱发送一封注册邮件</p>
+</div>
+<% } else if(user.UserStatus == "1" ){ %>
+<% } %>
+<% include hirings.html %>
+<% include footer.html %>
+
+

@@ -1,0 +1,129 @@
+<% include header.html %>
+<style type="text/css">
+<!--
+.STYLE1 {
+	font-size: 18px;
+	font-family: "新宋体";
+}
+td,th,label{
+	font-family: 新宋体;
+	font-size: 18px;
+}
+.STYLE8 {font-size: 14px}
+-->
+</style>
+<script type="text/javascript">
+    var flag = true;
+    $(function(){
+        $("#ResumeName").change(function(){
+            var resumename = $("#ResumeName").val();
+            // alert(resumename);
+            if(resumename == ""){
+                $("#proname_err").css("color","red");
+                $("#proname_err").html("简历名称不能为空");
+                return false;
+            }  else {
+                $.post("/resumename_check",
+                        {"ResumeName":resumename},
+                        function(data){
+                            //alert("flag:"+data.flag) ;
+                            if(data.flag == 1){
+                                $("#proname_err").css("color","red");
+                                $("#proname_err").html("这个简历名称您已经用过了");
+                                flag = false;
+                                return false;
+                            }
+                            if(data.flag == 0){
+                                $("#proname_err").css("color","green");
+                                $("#proname_err").html("");
+                                flag = true;
+                                return true;
+                            }
+                        })
+            }
+            return false;
+        })
+        $("#resumechange").submit(function(){
+            return flag;
+        })
+    })
+</script>
+<form id="resumechange" name="resumechange" enctype="multipart/form-data" action="/resumechange" method="post" >
+  <fieldset>
+    <legend>修改简历：</legend>   
+    <div class="control-group">
+      <div class="controls"> 
+	  <input type="text" class="input-xlarge" id="ResumeID" name="ResumeID" value="<%= resume._id %>"  required autofocus/>
+	   <label  for="ResumeName">简历名称：</label>
+        <input type="text" class="input-xlarge" id="ResumeName" name="ResumeName" value="<%= resume.ResumeName %>"  required autofocus/>
+		<span class="STYLE8" id="proname_err">不能为空</span>     
+	  </div>
+    </div>
+    <div class="control-group">
+     
+	  <div style=" border-bottom:solid 1px #999999 ">
+	 	 <label >个人信息</label>
+	  </div> 
+	  <div class="controls">
+	  <div id="ApplicantInfo" >
+        <table border="0" class="STYLE1" id="contactInfo">
+          <tr>
+            <td>姓&nbsp;&nbsp;&nbsp;&nbsp;名：</td>
+            <td><input type="text" name="ApplicantName" id="ApplicantName" value="<%= resume.ResumeApplicantContactInfo.ApplicantName %> "class="input-xlarge" required autofocus/></td>
+		  </tr>
+		  <!--tr>
+            <td>性&nbsp;&nbsp;&nbsp;&nbsp;别：</span></td>
+            <td><input type="text" name="ApplicantSex" id="ApplicantSex" class="input-xlarge" required autofocus/></td>
+          </tr>
+          <tr>
+            <td>出生日期：</td>
+            <td><input type="text" name="ApplicantBirth" id="ApplicantBirth" class="input-xlarge" required autofocus/></td>
+		  </tr>
+		  <tr>
+            <td>毕业院校：</td>
+            <td><input type="text" name="ApplicantSchool" id="ApplicantSchool" class="input-xlarge" required autofocus/></td>
+          </tr-->
+            <tr>
+                <td>手&nbsp;&nbsp;&nbsp;&nbsp;机：</td>
+                <td><input type="text" name="ContactMobilePhoneNo" id="ContactMobilePhoneNo" value="<%= resume.ResumeApplicantContactInfo.ContactMobilePhoneNo %> "class="input-xlarge" required autofocus/></td>
+            </tr>
+            <tr>
+                <td>固&nbsp;&nbsp;&nbsp;&nbsp;话：</td>
+                <td><input type="text" name="ContactFixedPhoneNo" id="ContactFixedPhoneNo" value="<%= resume.ResumeApplicantContactInfo.ContactFixedPhoneNo %> "class="input-xlarge" required autofocus/></td>
+            </tr>
+            <tr>
+                <td>邮&nbsp;&nbsp;&nbsp;&nbsp;箱：</td>
+                <td><input type="text" name="ContactEmailNo" id="ContactEmailNo" value="<%= resume.ResumeApplicantContactInfo.ContactEmailNo %> "class="input-xlarge" required autofocus/></td>
+            </tr>
+            <tr>
+                <td>详细地址：</td>
+                <td><input type="text" name="ContactAddressAndZipCode" id="ContactAddressAndZipCode" value="<%= resume.ResumeApplicantContactInfo.ContactAddressAndZipCode %> "class="input-xlarge" required autofocus/></td>
+            </tr>
+        </table>
+		</div>
+      </div>
+    </div>
+    <div class="control-group">
+	<div style=" border-bottom:solid 1px #999999 ">
+	 	 <label  for="ResumeSummary">个人简介：</label>
+	 </div>
+      <div class="controls">
+        <input type="textarea" name="ResumeSummary" id="ResumeSummary" value="<%= resume.ResumeSummary %>" rows="3" style="width:495px; height:50px" maxlength="500"/><span id="description_err"></span>
+		<p class="help-block" style="font-family:'新宋体'; font-size:14px">最多500个字</p>
+      </div>
+    </div>
+	 <div class="control-group">
+	 <div style=" border-bottom:solid 1px #999999 ">
+      <label  for="ResumeDetail">个人详细介绍：</label>
+	  </div>
+      <div class="controls">
+        <input type="textarea" name="ResumeDetail" id="ResumeDetail" value="<%= resume.ResumeDetails %>" rows="10" style="width:495px; height:50px" maxlength="500"/><span id="description_err"></span>
+		<p class="help-block" style="font-family:'新宋体'; font-size:14px">最多5000个字</p>
+      </div>
+    </div>
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">保存修改</button>
+    </div>
+  </fieldset>
+</form>
+<% include footer.html %>

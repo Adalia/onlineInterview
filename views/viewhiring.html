@@ -1,0 +1,80 @@
+<% include header.html %>
+<script type="text/javascript">
+        $(function (){
+            $("#interview").click(function(){
+               // alert($("#hiringID").val()+"+"+$("#employerID").val());
+                $.post("../interview_apply",
+                    {"DocumentID":$("#hiringID").val(),
+                     "AccepterID":$("#employerID").val()},
+                    function(data){
+                        //alert(data);
+                        if(data.status=="0"){
+                            alert ("雇主不在线");
+                        }
+                        else {
+                            //$.get("../startinterview");
+                             location.href="../startinterview";
+                        }
+                    })
+            })
+            $("#haveresume").click(function(){
+                $.post("../haveresume",
+                        {"DocumentID":$("#hiringID").val()},
+                         function(data){
+                           // alert(data);
+                             if(data.status == "1"){
+                                 alert("投递简历成功");
+                             }
+                             else if(data.status == "0") {
+                                 alert("您还没有创建简历");
+                             }
+                        }
+                )
+             })
+    })
+ </script>
+<div id="hiring">
+<div id="hiring_position">
+<h4 class="view">职位：<%= hiring.HiringPositionName %></h4>
+<input type="hidden" id="hiringID" value="<%= hiring._id %>"/>
+<input type="hidden" id="employerID" value="<%= employer._id %>"/>
+</div>
+<div id="introduce">
+<h4 class="view">公司简介</h4>
+<p style="width:550px; height:200px;overflow: hidden"><%= hiring.HiringEmployerIntro %></p>
+</div>
+<div id="requirements">
+<h4 class="view">职位需求</h4>
+<p style="width:550px; height:350px;overflow: hidden"><%= hiring.HiringRequirements %></p>
+</div>
+<div id="employericon">
+  <table >
+  <th align="left"><h4 class="view">职位发布人</h4></th>
+    <tr>
+      <td width="130"><img src="../<%= hiring.HiringEmployerContactInfo.ContactIconURL %>" style="width:100px; height:120px; border:1px solid #CCCCCC ;" /></td>
+      <td width="175" align="left"><p><%= hiring.HiringEmployerContactInfo.EmployerName %></p>
+                <% if( employer.OnlineStatus == '0') { %>
+                    <h5>离线</h5>
+                <% } else { %>
+                <p>在线</p><% } %>
+                <% if(user.UserRole == "求职者" ) { %>
+               <button class="btn btn-info" id="interview" >申请面试</button>
+                <button class="btn btn-info" id="haveresume" >投递简历</button>
+                <% }%>
+        </td>
+    </tr>
+  </table>
+</div>
+<div id="employercontactInfo">
+<h4 class="view">联系方式</h4>
+		   <p>手机：<%= hiring.HiringEmployerContactInfo.ContactMobilePhoneNo %></p>
+		    <p>公司电话：<%= hiring.HiringEmployerContactInfo.ContactFixedPhoneNo %></p>
+			 <p>邮箱：<%= hiring.HiringEmployerContactInfo.ContactEmailNo %></p>
+			  <p>详细地址：<%= hiring.HiringEmployerContactInfo.ContactAddressAndZipCode %></p>
+			   <p>QQ：</p>
+			    <p>微博：</p>
+</div>
+</div>
+</div>
+</body>
+</html>

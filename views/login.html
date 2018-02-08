@@ -1,0 +1,82 @@
+﻿<% include header.html%>
+<script type="text/javascript">
+$(function(){
+	var flag1=false;
+	var flag2=false;
+
+	$("#txtApplicantAccount").blur(function(){
+		 var name = $("#txtApplicantAccount").val();
+		 if(name=='')
+		{
+            $("#ErrorMssage").html("请输入用户名");
+			flag1=false;
+        }
+		else{
+			flag1=true;
+		}
+	});
+	$("#txtApplicantPassword").blur(function(){
+	
+		var pwd = $("#txtApplicantPassword").val();
+        if(pwd=='')
+		{
+           $("#ErrorMssage").html("请输入密码");
+            flag2=false;
+		}
+		else {
+			flag2=true; 
+		}
+	});
+	$("#signcheck").submit(function(){
+			alert(flag1+"+"+flag2+"+"+flag3);
+			return  flag1&&flag2;
+		});
+	/*$("#submit").click(function(){
+		alert(flag1+"+"+flag2);
+		if(flag1&&flag2)
+		{
+			//alert("123");
+			$.post("./login",
+				{"UserAccount":$("#txtApplicantAccount").val(),
+					"UserPassword":$("#txtApplicantPassword").val()}),
+function(data){
+					if(data.statue=="0"){
+					  alert("123");
+					}
+					if(data.statue=="1"){
+						alert("您的账号未激活，请您激活账号");
+					}
+					if(data.statue=="2"){
+						$("#ErrorMssage").html("账号错误，若您还未注册，请先注册后再登录");
+					}
+					if(data.statue=="3"){
+						$("#ErrorMssage").html("密码错误，请重新输入密码")
+					}
+				});	  			
+		}
+	});*/
+});
+</script>
+<form class="form-horizontal" id="signcheck" method="post">
+  <fieldset>
+    <legend>用户登录</legend>
+    <div class="control-group">
+	  <div style="height: 30px; padding: 5px; color: red" id="ErrorMssage"></div>
+      <label class="control-label" for="UserAccount">用户名</label>
+      <div class="controls">
+        <input type="text" class="input-xlarge" id="UserAccount" name="UserAccount">
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="UserPassword">密码</label>
+      <div class="controls">
+        <input type="password" class="input-xlarge" id="UserPassword" name="UserPassword">
+      </div>
+    </div>
+<div class="form-actions" >
+ <button type="submit" class="btn btn-primary">登录</button>  
+ </div>
+  </fieldset>
+</form>
+
+<% include footer.html%>

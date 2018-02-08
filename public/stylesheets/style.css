@@ -1,0 +1,141 @@
+
+.hiring{
+    width: 300px;
+    display: block;
+    overflow: hidden;
+    border:#d3d3d3 1px solid;
+    border-radius: 5px;
+    line-height: 18px;
+    background: #ffffff;
+}
+input.head-search{
+    width:157px;
+    float: left;
+    cursor: pointer;
+    overflow:hidden;
+    text-align: left;
+    line-height: 20px;
+    font-size: 12px;
+    background:white;
+    border-bottom: 0;
+    outline-color: none;
+}
+#personalinformation {
+    position:absolute;
+    left:0px;
+    top:2px;
+    width:732px;
+    height:220px;
+    z-index:2;
+}
+#resumesummary {
+    position:absolute;
+    left:0px;
+    top:220px;
+    width:732px;
+    height:225px;
+    z-index:3;
+}
+#resumedetails {
+    position:absolute;
+    left:0px;
+   top:420px;
+    width:732px;
+    height:420px;
+    z-index:4;
+}
+#appicanticon {
+    position:absolute;
+    left:0px;
+    top:1px;
+    width:181px;
+    height:196px;
+    z-index:5;
+    overflow: visible;
+}
+#applicantconctinfo {
+    position:absolute;
+    left:220px;
+    top:0px;
+    width:520px;
+    height:220px;
+    z-index:6;
+}
+.view{border-bottom:#66CC66 dashed 2px; padding-bottom:3px}
+#resume{position:absolute; left:213px; top:70px; width:736px; height:778px; z-index:1;}
+
+#hiring {
+    position:absolute;
+    left:100px;
+    top:100px;
+    width:950px;
+    height:600px;
+    z-index:1;
+}
+#hiring_position {
+    position:absolute;
+    top:0px;
+    width:580px;
+    height:240px;
+    z-index:3;
+}
+#introduce {
+    position:absolute;
+    top:60px;
+    width:580px;
+    height:240px;
+    z-index:3;
+}
+
+#requirements {
+    position:absolute;
+    top:290px;
+    width:580px;
+    height:350px;
+    z-index:3;
+}
+
+#employericon {
+    position:absolute;
+    left:630px;
+    width:300px;
+    height:210px;
+    z-index:3;
+}
+#employercontactInfo {
+    position:absolute;
+    left:630px;
+    width:300px;
+    top:220px;
+    height:358px;
+    z-index:4;
+}
+.hirings_Layer1 {
+	width:700px;
+	padding-left: 20px;
+	margin-left: 20px;
+	z-index:1;
+	box-shadow: 2px 2px rgba(11, 11, 247, 0.1);
+}
+.hiring_Layer2 {
+	width:680px;
+	height:120px;
+	padding-left: 20px;
+	z-index:2;
+	box-shadow: 3px 3px 10px rgba(11, 11, 247, 0.2);
+
+}
+.hiringlist_intro{
+    height: 57px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.table_th {
+    font-weight: bold;
+	font-size:14px;
+	font:"������";
+    height: 24px;
+    line-height: 24px;
+    width: 1000px;
+	background-color:#33CCFF
+}

@@ -1,0 +1,121 @@
+<% include header.html %>
+<style type="text/css">
+<!--
+.STYLE1 {
+	font-size: 18px;
+	font-family: "新宋体";
+}
+td,th,label{
+	font-family: 新宋体;
+	font-size: 18px;
+}
+-->
+</style>
+ <script type="text/javascript">
+     var flag = false;
+     $(function(){
+         $("#ResumeName").blur(function(){
+             var resumename = $("#ResumeName").val();
+            // alert(resumename);
+             if(resumename == ""){
+                 $("#proname_err").css("color","red");
+                 $("#proname_err").html("简历名称不能为空");
+                 return false;
+             }  else {
+                 $.post("/resumename_check",
+                         {"ResumeName":resumename},
+                          function(data){
+                              //alert("flag:"+data.flag) ;
+                             if(data.flag == 1){
+                                 $("#proname_err").css("color","red");
+                                 $("#proname_err").html("这个简历名称您已经用过了");
+                                 flag = false;
+                                 return false;
+                             }
+                              if(data.flag == 0){
+                                  $("#proname_err").css("color","green");
+                                  $("#proname_err").html("");
+                                  flag = true;
+                                  return true;
+                              }
+                     })
+             }
+             return false;
+         })
+     $("#resumecreate").submit(function(){
+         return flag;
+     })
+     })
+ </script>
+<div id="div_resumeform" style="width: 500px; left: 200px;position: absolute">
+<form id="resumecreate" name="resumecreate" enctype="multipart/form-data" action="/resumecreate" method="post" >
+  <fieldset>
+    <div class="control-group">
+      <div class="controls"> 
+	   <label  for="ResumeName">简历名称：</label>
+        <input type="text" class="input-xlarge" id="ResumeName" name="ResumeName" required autofocus/>
+          <span style="font-size: 12px" id="proname_err">不能为空</span>
+	  </div>
+    </div>
+    <div class="control-group">
+	  <div style=" border-bottom:solid 2px #999999; ">
+	 	 <label >个人信息</label>
+	  </div> 
+	  <div class="controls">
+	  <div id="ApplicantInfo" style="padding-top: 8px">
+        <table border="0" class="STYLE1" id="contactInfo">
+          <tr>
+            <td>姓&nbsp;&nbsp;&nbsp;&nbsp;名：</td>
+            <td><input type="text" name="ApplicantName" id="ApplicantName" class="input-xlarge" required autofocus/></td>
+		  </tr>
+		  <!tr>
+            <td>照&nbsp;&nbsp;&nbsp;&nbsp;片：</td>
+            <td><input type="file" name="ContactIconURL" id="ContactIconURL" class="input-xlarge" required autofocus/>
+                <span class="help-block" style=" font-size:12px">允许为PNG或者JPEG格式的图片</span>
+            </td>
+          </tr>
+		  <tr>
+            <td>固定电话：</td>
+            <td><input type="text" name="ContactFixedPhoneNo" id="ContactFixedPhoneNo" class="input-xlarge" /></td>
+          </tr>
+          <tr>
+            <td>手&nbsp;&nbsp;&nbsp;&nbsp;机：</td>
+            <td><input type="text" name="ContactMobilePhoneNo" id="ContactMobilePhoneNo" class="input-xlarge" required autofocus/></td>
+			</tr>
+			<tr>
+            <td>邮&nbsp;&nbsp;&nbsp;&nbsp;箱：</td>
+            <td><input type="text" name="ContactEmailNo" id="ContactEmailNo" class="input-xlarge" required autofocus/></td>
+          </tr>
+            <tr>
+                <td>详细住址：</td>
+                <td><input type="text" name="ContactAddressAndZipCode" id="ContactAddressAndZipCode" class="input-xlarge" required autofocus/>
+                    <span style="font-family:'新宋体'; font-size:12px">请填写详细的地址</span></td>
+            </tr>
+        </table>
+		</div>
+      </div>
+    </div>
+    <div class="control-group">
+	<div style=" border-bottom:solid 2px #999999 ;">
+	 	 <label  for="ApplicantSummary">个人简介：</label>
+	 </div>
+      <div class="controls" style="padding-top: 0px">
+        <textarea name="ApplicantSummary" id="ApplicantSummary"  rows="3" style="width:495px; height:50px" maxlength="500"></textarea><span id="description_err"></span>
+		<p class="help-block" style="font-family:'新宋体'; font-size:14px">最多500个字</p>
+      </div>
+    </div>
+	 <div class="control-group">
+	 <div style=" border-bottom:solid 2px #999999 ">
+      <label  for="ApplicantDetail">个人详细介绍：</label>
+	  </div>
+      <div class="controls">
+        <textarea name="ApplicantDetail" id="ApplicantDetail"   style="width:495px; height:50px" maxlength="5000"></textarea><span id="description_err"></span>
+		<p class="help-block" style="font-family:'新宋体'; font-size:14px">最多5000个字</p>
+      </div>
+    </div>
+    <div >
+      <button type="submit" class="btn btn-primary">创建简历</button>
+    </div>
+  </fieldset>
+</form>
+</div>

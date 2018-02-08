@@ -1,0 +1,16 @@
+<style type="text/css">
+   
+</style>
+<div class="hirings_Layer1">
+<% hirings.forEach(function(hiring, index) { %>
+<div class="hiring_Layer2">
+
+        <h4>职位名称：<a id="a<%=index %>"  href="/viewhiring/<%= hiring._id %>"><%= hiring.HiringPositionName %></a></h4>
+        <p class="hiringlist_intro">公司简介：
+            <span id="HiringEmployerIntro<%=index %>"><%= hiring.HiringEmployerIntro %></span></p>
+        <p></p><p>发布时间:</p><p></p>
+</div>
+<p></p>
+<% })%>
+ </div>
+

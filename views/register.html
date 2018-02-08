@@ -1,0 +1,134 @@
+<% include header.html %>
+<script type="text/javascript">;
+$(function(){
+        var flag1=false;
+		var flag2=false;
+		var flag3=false;
+        $("#UserAccount").blur(function(){
+		    var name = $("#UserAccount").val();
+		    var re=/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;  
+		    if(!re.test(name))
+		    {
+				$("#username_err").css("color","red");
+				$("#username_err").html("邮箱格式错误，请填写正确的邮箱");
+			    flag1=false;
+                //return false;
+            }
+			else{
+			$("#username_err").css("color","green");
+			$("#username_err").html("");
+			//alert("123");
+			$.post("./reg_check",
+				{"UserAccount":$("#UserAccount").val()},
+				function(data)
+				{
+					if(data.statue == 1)
+					{
+						$("#username_err").css("color","red");
+						$("#username_err").html("用户名已被注册");
+						flag1=false;
+						return false;
+					}
+					if(data.statue == 0)
+					{
+						$("#username_err").css("color","green");
+						$("#username_err").html("正确");
+						flag1=true;  
+						return true;
+					}
+				});
+				}
+			return false;
+		});
+        //密码
+		$("#UserPassword").blur(function(){
+            var pwd = $("#UserPassword").val();
+			var repwd = $("#password-repeat").val();
+			if(repwd.length!=0 && pwd!=repwd){
+				$("#passwd_err").css("color","red");
+				$("#passwd_err").html("两次输入的密码不一样，请重新输入");
+				flag2=flase;
+				//return false;
+			}else{
+            var re = /^[a-zA-Z0-9_-]{8,16}$/i;
+            if(!re.test(pwd))
+		    {	
+				$("#passwd_err").css("color","red");
+				$("#passwd_err").html("密码格式有误，请检测后再试");
+		        flag2=false;
+				//return false;
+            }else{
+				$("#passwd_err").html("");
+				flag2=true;
+				//return true;
+			}
+			}
+			return false;
+		});
+        //重复输入密码
+		$("#password-repeat").blur(function(){
+		    var pwd = $("#UserPassword").val();
+			var repwd = $("#password-repeat").val();
+			if(pwd!=repwd)
+			{
+				$("#passwdrep_err").css("color","red");
+				$("#passwdrep_err").html("两次输入的密码不一样，请重新输入");
+				flag3=flase;
+				return false;
+			}else{
+				$("#passwdrep_err").html("");
+				flag3=true;
+				return true;
+			}
+			return false;
+		});			  
+        $("#registerform").submit(function(){
+			alert(flag1+"+"+flag2+"+"+flag3);
+			if(flag1&&flag2&&flag3){
+				alert("我们将想您的注册邮箱发送一封邮件，用于激活账号，请前往您的邮箱激活账号");
+			}
+			return  flag1&&flag2&&flag3;
+		});
+});
+</script>
+<form class="form-horizontal" id="registerform" method="post">
+  <fieldset>
+    <legend>用戶注册</legend>
+    <div class="control-group">
+      <label class="control-label" for="UserAccount">用戶名</label>
+      <div class="controls">
+        <input type="text" class="input-xlarge" id="UserAccount" name="UserAccount"><span id="username_err"></span>
+        <p class="help-block">请填写合法的邮箱</p>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="UserPassword">密码</label>
+      <div class="controls">
+        <input type="password" class="input-xlarge" id="UserPassword" name="UserPassword"><span id="passwd_err"></span>
+		<p class="help-block">您的密码可以由大小写英文字母、数字组成，长度8－16位</p>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="password-repeat">确认密码</label>
+      <div class="controls">
+        <input type="password" class="input-xlarge" id="password-repeat" name="password-repeat"><span id="passwdrep_err"></span>
+		<p class="help-block">请再次输入您的密码，进行确认</p>
+      </div>
+    </div>
+	<div class="control-group">
+      <label class="control-label" for="password-repeat">注册角色</label>
+      <div class="controls">
+        <select class="input-xlarge" id="UserRole" name="UserRole">
+			<option value="求职者">求职者</option>
+			<option value="雇主">雇主</option>
+		</select>
+		<p class="help-block"></p>
+      </div>
+    </div>
+		
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">注册</button>
+    </div>
+  </fieldset>
+</form>
+<% include footer.html %>

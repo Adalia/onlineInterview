@@ -1,0 +1,22 @@
+<% include header.html %>
+<br/>
+<br/>
+<div class="span9">
+    <table class="table table-bordered ">
+        <tr class="table_th">
+            <td width="120">投递人</td>
+            <td width="120">投递人简介 </td>
+            <td width="120">查看简历</td>
+        </tr>
+        <% applicantresumelist.forEach(function(applicantresume, index) {
+        if(index < applicantresumelist.length) {    %>
+        <tr>
+            <td width="120"><%= applicantresume.ResumeApplicantContactInfo.ApplicantName %></td>
+            <td width="120" ><p style="height:57px;overflow: hidden;"> <%= applicantresume.ResumeSummary %></p> </td>
+            <td width="120"><a href="/viewresume/<%=applicantresume._id %>">详情</a></td>
+        </tr>
+        <%} %>
+        <%}) %>
+    </table>
+</div>
+<% include footer.html %>

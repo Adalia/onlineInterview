@@ -1,0 +1,130 @@
+<% include header.html %>
+<style type="text/css" xmlns="http://www.w3.org/1999/html">
+<!--
+.STYLE1 {
+	font-size: 18px;
+	font-family: "新宋体";
+}
+td,th,label{
+	font-family: 新宋体;
+	font-size: 18px;
+}
+.STYLE8 {font-size: 14px}
+-->
+</style>
+<script type="text/javascript">
+    var flag = true;
+    $(function(){
+        $("#HiringPositionName").change(function(){
+            var hiringname = $("#HiringPositionName").val();
+            // alert(hiringname);
+            if(hiringname == ""){
+                $("#proname_err").css("color","red");
+                $("#proname_err").html("简历名称不能为空");
+                return false;
+            }  else {
+                $.post("/hiringname_check",
+                        {"HiringPositionName":hiringname},
+                        function(data){
+                            //alert("flag:"+data.flag) ;
+                            if(data.flag == 1){
+                                $("#proname_err").css("color","red");
+                                $("#proname_err").html("这个简历名称您已经用过了");
+                                flag = false;
+                                return false;
+                            }
+                            if(data.flag == 0){
+                                $("#proname_err").css("color","green");
+                                $("#proname_err").html("");
+                                flag = true;
+                                return true;
+                            }
+                        })
+            }
+            return false;
+        })
+        $("#hiringcreate").submit(function(){
+            return flag;
+        })
+    })
+</script>
+<% console.log("前端得到的的职位"+hiring._id); %>
+<form id="hiringchange" name="hiringchange" enctype="multipart/form-data" action="/hiringchange" method="post" >
+  <fieldset>
+    <legend>修改职位：</legend>
+    <div class="control-group">
+      <div class="controls">
+	   <label  for="HiringPositionName">简历名称：</label>
+        <input type="text" class="input-xlarge" id="HiringPositionName" name="HiringPositionName" value="<%= hiring.HiringPositionName %>"  required autofocus/>
+		<span class="STYLE8" id="proname_err">不能为空</span>     
+	  </div>
+    </div>
+    <div class="control-group">
+     
+	  <div style=" border-bottom:solid 1px #999999 ">
+	 	 <label >个人信息</label>
+	  </div> 
+	  <div class="controls">
+	  <div id="EmployerInfo" >
+        <table border="0" class="STYLE1" id="contactInfo">
+          <tr>
+            <td>姓&nbsp;&nbsp;&nbsp;&nbsp;名：</td>
+            <td><input type="text" name="EmployerName" id="EmployerName" value="<%= hiring.HiringEmployerContactInfo.EmployerName %> "class="input-xlarge" required autofocus/></td>
+		  </tr>
+		  <!--tr>
+            <td>性&nbsp;&nbsp;&nbsp;&nbsp;别：</span></td>
+            <td><input type="text" name="EmployerSex" id="EmployerSex" class="input-xlarge" required autofocus/></td>
+          </tr>
+          <tr>
+            <td>出生日期：</td>
+            <td><input type="text" name="EmployerBirth" id="EmployerBirth" class="input-xlarge" required autofocus/></td>
+		  </tr>
+		  <tr>
+            <td>毕业院校：</td>
+            <td><input type="text" name="EmployerSchool" id="EmployerSchool" class="input-xlarge" required autofocus/></td>
+          </tr-->
+          <tr>
+            <td>手&nbsp;&nbsp;&nbsp;&nbsp;机：</td>
+            <td><input type="text" name="ContactMobilePhoneNo" id="ContactMobilePhoneNo" value="<%= hiring.HiringEmployerContactInfo.ContactMobilePhoneNo %> "class="input-xlarge" required autofocus/></td>
+			</tr>
+            <tr>
+                <td>固&nbsp;&nbsp;&nbsp;&nbsp;话：</td>
+                <td><input type="text" name="ContactFixedPhoneNo" id="ContactFixedPhoneNo" value="<%= hiring.HiringEmployerContactInfo.ContactFixedPhoneNo %> "class="input-xlarge" required autofocus/></td>
+            </tr>
+			<tr>
+            <td>邮&nbsp;&nbsp;&nbsp;&nbsp;箱：</td>
+            <td><input type="text" name="ContactAddressAndZipCode" id="ContactAddressAndZipCode" value="<%= hiring.HiringEmployerContactInfo.ContactAddressAndZipCode %> "class="input-xlarge" required autofocus/></td>
+          </tr>
+            <tr>
+                <td>详细地址：</td>
+                <td><input type="text" name="ContactEmailNo" id="ContactEmailNo" value="<%= hiring.HiringEmployerContactInfo.ContactEmailNo %> "class="input-xlarge" required autofocus/></td>
+            </tr>
+        </table>
+		</div>
+      </div>
+    </div>
+    <div class="control-group">
+	<div style=" border-bottom:solid 1px #999999 ">
+	 	 <label  for="HiringEmployerIntro">雇主简介：</label>
+	</div>
+      <div class="controls">
+       <textarea name="HiringEmployerIntro" id="HiringEmployerIntro" rows="3" style="width:495px; height:50px" maxlength="500"> <%= hiring.HiringEmployerIntro %> </textarea>
+          <span id="description_err"></span>
+      </div>
+    </div>
+	 <div class="control-group">
+	 <div style=" border-bottom:solid 1px #999999 ">
+      <label  for="HiringRequirements">职位需求：</label>
+	  </div>
+      <div class="controls">
+        <textarea name="HiringRequirements" id="HiringRequirements"  rows="10" style="width:495px; height:50px" maxlength="500"><%= hiring.HiringRequirements %></textarea>
+          <span id="description_err"></span>
+          <p class="help-block" style="font-family:'新宋体'; font-size:14px">最多5000个字</p>
+      </div>
+    </div>
+    <div >
+      <button type="submit" class="btn btn-primary">保存修改</button>
+    </div>
+  </fieldset>
+</form>
+<% include footer.html %>

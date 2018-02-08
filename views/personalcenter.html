@@ -1,0 +1,28 @@
+<% include header.html %>
+<script src="/javascripts/jquery.min.js"></script>  
+<br/>
+<br/>
+<div class="span8">
+    <table class="table table-bordered">
+        <tr class="table_th">
+            <td width="120">职位名称</td>
+            <td width="120">简历投递数 </td>
+            <td width="120">查看投递简历</td>
+        </tr>
+       <% employerhirings.forEach(function(employerhiring, index) {
+        if(index < employerhirings.length) {    %>
+        <tr>
+            <td width="120"><%= employerhiring.HiringPositionName %></td>
+            <% if( employerhiring.ApplicantResumeIDList == null) { %>
+            <td width="120">0 </td>
+            <td width="120">查看投递简历</td>
+            <% }  else {%>
+            <td width="120"><%= employerhiring.ApplicantResumeIDList.length %> </td>
+            <td width="120"><a href="/viewhaveresumelist/<%=employerhiring._id %>">查看投递简历</a></td><% } %>
+        </tr>
+        <%} %>
+        <%}) %>
+    </table>
+</div>
+
+<% include footer.html %>

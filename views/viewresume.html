@@ -1,0 +1,69 @@
+﻿ <% include header.html %>
+<script>
+    $(function (){
+        $("#interview").click(function(){
+            // alert($("#hiringID").val()+"+"+$("#employerID").val());
+            $.post("../interview_apply",
+                    {"DocumentID":$("#resumeID").val(),
+                        "AccepterID":$("#applicantID").val()},
+                    function(data){
+                        //alert(data);
+                        if(data.status=="0"){
+                            alert ("求职者不在线");
+                        }
+                        else {
+                            // $.get("../startinterview");
+                            location.href="../startinterview";
+                        }
+                    })
+        })
+    })
+</script>
+<div id="resume" >
+<div id="personalinformation">
+    <input type="hidden" id="resumeID" value="<%= resume._id %>"/>
+    <input type="hidden" id="applicantID" value="<%= applicant._id %>"/>
+	<div id="applicanticon">
+	  <table width="180" border="0">
+        <tr>
+          <td align="left">
+            <img src="../<%= resume.ResumeApplicantContactInfo.ContactIconURL %>" class="img-polaroid" style="width: 140px; height: 140px"/></td>
+        </tr>
+        <tr>
+          <td align="left"><h5><%= resume.ResumeApplicantContactInfo.ApplicantName %>&nbsp;&nbsp;
+              <% if(applicant.OnlineStatus =='0'){ %> 离线 <% }else { %>在线  <% } %></h5></td>
+        </tr>
+        <tr>
+           <% if (user.UserRole == "雇主") { %>
+          <td height="21" align="left"> <button class="btn btn-info"id="interview" >邀请面试</button></td>
+            <% } %>
+        </tr>
+      </table>
+	</div>
+	<div id="applicantconctinfo">
+	  <table  width="546" height="196" border="0">
+        <tr>
+          <td valign="top">
+		  <h4 class="view">联系方式</h4>
+		  <p><span>手机:<%= resume.ResumeApplicantContactInfo.ContactMobilePhoneNo %></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <span>固话:<%= resume.ResumeApplicantContactInfo.ContactFixedPhoneNo %></span></p>
+		  <p>邮箱:<%= resume.ResumeApplicantContactInfo.ContactEmailNo %></p>
+		  <P>详细地址:<%= resume.ResumeApplicantContactInfo.ContactAddressAndZipCode %></P>
+		  <p><span>QQ</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span>微博</span></p>
+          </td>
+        </tr>
+      </table>
+	</div>
+</div>
+<div id="resumesummary">
+  <h4 class="view">个人简介</h4>
+  <p style="width:700px; height:200px;overflow: hidden"><%= resume.ResumeSummary %></p>
+</div>
+<div id="resumedetails">
+	<h4 class="view">个人详细信息</h4>
+  <p style="width:700px; height:400px; overflow: hidden"><%= resume.ResumeDetails %></p>
+</div>
+</div>
+ </div>
+ </body>
+ </html>

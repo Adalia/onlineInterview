@@ -1,0 +1,72 @@
+<script src="/javascripts/jquery.min.js"></script>
+<script src="/javascripts/jquery-ui-1.9.2.min.js"></script>
+
+<style type="text/css">
+
+</style>
+<br/>
+<br/>
+<div class="span8">
+<table  class="table table-bordered " style="text-align:center">
+<tbody>
+<% if(user.UserRole == "雇主"){ %>
+<tr class="table_th">
+	<td width="120">职位名称</td>
+	<!--td width="120">简历ID</td-->
+	<td width="120">修&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;改 </td>
+	<td width="120">预&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;览</td>
+	<td width="120">删&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;除</td>
+</tr>
+<% hirings.forEach(function(employerhiring, index) {
+    if(index < hirings.length) {  %>
+<tr>
+	<td width="120" id="HiringPositionName<%=index %>"><%=employerhiring.HiringPositionName %></td>
+	<!--td width="120" id="ResumeID</td-->
+	<td width="120" >
+		<a href="/hiringchange/<%=employerhiring._id %>">
+		<img id="modifyhiring" src="/img/icon_amend.gif" /><span >Modify</span></a>
+	</td>
+	<td width="120" >
+		<a href="/viewhiring/<%=employerhiring._id %>">
+		<img id="viewhiring" src="/img/icon_check.gif" /><span>Check</span></a>
+	</td>
+	<td width="120" >
+		<a  href="/delete/<%=employerhiring._id %>"onclick="return confirm('确定删除该职位?')">
+		<img id="deletehiring" src="/img/icon_empty.gif"/><span>Delete</span></a>
+	</td>
+</tr>
+<%} %>
+<%}) %>
+<%} else { %>
+<tr class="table_th">
+	<td width="120">简历名称</td>
+	<!--td width="120">简历ID</td-->
+	<td width="120">修&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;改 </td>
+	<td width="120">预&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;览</td>
+	<td width="120">删&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;除</td>
+</tr>
+<% resumes.forEach(function(applicantresume, index) {
+    if(index < resumes.length) { %>
+<tr>
+	<td width="120" id="ResumeName<%=index %>"><%=applicantresume.ResumeName %></td>
+	<!--td width="120" id="ResumeID</td-->
+	<td width="120" >
+		<a href="/resumechange/<%=applicantresume.ResumeID %>">
+		<img id="modifyrsume" src="/img/icon_amend.gif" /><span>Modify</span></a>
+	</td>
+	<td width="120" >
+		<a href="/viewresume/<%=applicantresume.ResumeID %>">
+		<img id="viewresume" src="/img/icon_check.gif" /><span>Check</span></a>
+	</td>
+	<td width="120" >
+		<a href="/delete/<%=applicantresume.ResumeID %>"onclick="return confirm('确定删除该份简历?')">
+		<img id="deleteresume" src="/img/icon_empty.gif" /><span id="delete<%=index %>" >Delete</span></a>
+	</td>
+</tr>
+<%} %>
+<%}) %>
+<%} %>
+</tbody>
+</table>
+</div>
+
